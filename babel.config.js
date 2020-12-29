@@ -29,6 +29,7 @@ module.exports = {
           '@utils': './src/utils',
           '@sagas': './src/sagas',
           '@global': './src/global',
+          '@helpers': './src/helpers',
         },
       },
     ],
