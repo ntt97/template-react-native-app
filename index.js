@@ -5,6 +5,7 @@ Navigation.events().registerAppLaunchedListener(() => {
   Navigation.setRoot({
     root: {
       stack: {
+        options: { topBar: { visible: false, height: 0 } },
         children: [
           {
             component: {
@@ -13,6 +14,9 @@ Navigation.events().registerAppLaunchedListener(() => {
           },
         ],
       },
+    },
+    layout: {
+      orientation: 'portrait',
     },
   });
 });
