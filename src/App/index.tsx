@@ -20,8 +20,8 @@ const App = (props: unknown) => {
           <Header />
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Tyler Nguyen</Text>
-              <Text style={styles.sectionDescription}>Mobile Developer</Text>
+              <Text style={styles.sectionTitle}></Text>
+              <Text style={styles.sectionDescription}></Text>
             </View>
           </View>
         </ScrollView>
