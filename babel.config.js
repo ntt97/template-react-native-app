@@ -30,6 +30,7 @@ module.exports = {
           '@sagas': './src/sagas',
           '@global': './src/global',
           '@helpers': './src/helpers',
+          '@types': './src/@types',
         },
       },
     ],
