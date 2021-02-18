@@ -202,7 +202,14 @@ const App = (props: unknown) => {
     inputRange: [0, 1],
     outputRange: ['0deg', '360deg'],
   });
-
+  Animated.loop(
+    Animated.timing(spinValue, {
+      toValue: 1,
+      duration: 3000,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }),
+  ).start();
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -225,7 +232,15 @@ const App = (props: unknown) => {
                       }}
                       style={[styles.block11]}
                     >
-                      <Animated.View style={{ transform: [{ rotate: spin }] }}>
+                      <Animated.View
+                        style={
+                          motor1
+                            ? {
+                                transform: [{ rotate: spin }],
+                              }
+                            : {}
+                        }
+                      >
                         <Icon name="propeller-1" size={50} color={motor1 ? 'blue' : 'gray'} />
                       </Animated.View>
                       <Text style={styles.textItem}>Máy 1</Text>
@@ -236,7 +251,18 @@ const App = (props: unknown) => {
                       }}
                       style={[styles.block11]}
                     >
-                      <Icon name="propeller-1" size={50} color={motor2 ? 'blue' : 'gray'} />
+                      <Animated.View
+                        style={
+                          motor2
+                            ? {
+                                transform: [{ rotate: spin }],
+                              }
+                            : {}
+                        }
+                      >
+                        <Icon name="propeller-1" size={50} color={motor2 ? 'blue' : 'gray'} />
+                      </Animated.View>
+
                       <Text style={styles.textItem}>Máy 2</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -245,7 +271,18 @@ const App = (props: unknown) => {
                       }}
                       style={[styles.block11]}
                     >
-                      <Icon name="propeller-1" size={50} color={motor3 ? 'blue' : 'gray'} />
+                      <Animated.View
+                        style={
+                          motor3
+                            ? {
+                                transform: [{ rotate: spin }],
+                              }
+                            : {}
+                        }
+                      >
+                        <Icon name="propeller-1" size={50} color={motor3 ? 'blue' : 'gray'} />
+                      </Animated.View>
+
                       <Text style={styles.textItem}>Máy 3</Text>
                     </TouchableOpacity>
                   </View>
@@ -319,12 +356,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
-    //shadow
+    // shadow
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.3,
     shadowRadius: 20,
-    //its for android
+    // its for android
     elevation: 5,
     backgroundColor: 'white',
     borderRadius: 20,
