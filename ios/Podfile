@@ -12,6 +12,8 @@ target 'TempleteProject' do
 
   pod 'react-native-agora', :path => '../node_modules/react-native-agora'
 
+  pod 'Interactable', :path => '../node_modules/react-native-interactable'
+
   target 'TempleteProjectTests' do
     inherit! :complete
     # Pods for testing
