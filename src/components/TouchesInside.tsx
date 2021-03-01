@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Switch, ActivityIndicator, Image, TextInput } from 'react-native';
+import { StyleSheet, View, Text, Switch, Button, Picker, Slider } from 'react-native';
 import Interactable from 'react-native-interactable';
-
 export default class TouchesInside extends Component {
   constructor(props) {
     super(props);
@@ -27,22 +26,36 @@ export default class TouchesInside extends Component {
           horizontalOnly={!this.state.vertical}
           dragEnabled={this.state.dragEnabled}
           snapPoints={[{ y: 0 }]}
-          style={{ width: 300, height: 500, padding: 20, backgroundColor: '#e0e0e0' }}
+          style={{ width: 300, height: 600, padding: 20, backgroundColor: '#e0e0e0' }}
         >
-          <Text style={{ alignSelf: 'center', fontSize: 18, margin: 20 }}>Hello world</Text>
-          <ActivityIndicator animating={true} size="large" style={{ marginBottom: 20 }} />
-          <Image
-            style={{ width: 220, height: 120, marginBottom: 20, alignSelf: 'center' }}
-            source={{
-              uri:
-                'https://static.wixstatic.com/media/e758eb_729674838e084f49bc75db035ed286a6~mv2.jpg/v1/fill/w_300,h_160,al_c,q_80,usm_0.66_1.00_0.01/e758eb_729674838e084f49bc75db035ed286a6~mv2.jpg',
+          <Button
+            title="Button"
+            onPress={() => {
+              alert('Button pressed');
             }}
           />
-          <TextInput style={{ height: 40, backgroundColor: 'white', padding: 4, borderWidth: 1, marginBottom: 20 }} />
-          <View
-            pointerEvents="none"
-            style={{ width: 220, height: 80, backgroundColor: '#542790', marginBottom: 20, alignSelf: 'center' }}
+          <Picker
+            style={{ width: 220, backgroundColor: 'white', margin: 20 }}
+            selectedValue={this.state.language}
+            onValueChange={lang => this.setState({ language: lang })}
+          >
+            <Picker.Item label="Objective-C" value="objc" />
+            <Picker.Item label="Java" value="java" />
+            <Picker.Item label="JavaScript" value="js" />
+          </Picker>
+          <Slider style={{ marginBottom: 20 }} />
+          <Switch
+            style={{ alignSelf: 'center', marginBottom: 20 }}
+            value={this.state.switch}
+            onValueChange={value => this.setState({ switch: value })}
           />
+          {/* <WebView
+            source={{
+              uri:
+                'https://static.wixstatic.com/media/e758eb_729674838e084f49bc75db035ed286a6~mv2.jpg/v1/fill/w_733,h_489,al_c,q_80,usm_0.66_1.00_0.01/e758eb_729674838e084f49bc75db035ed286a6~mv2.jpg',
+            }}
+            style={{ width: 220, alignSelf: 'center' }}
+          /> */}
         </Interactable.View>
       </View>
     );
