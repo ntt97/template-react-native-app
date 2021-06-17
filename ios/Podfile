@@ -5,10 +5,15 @@ platform :ios, '11.0'
 
 target 'TempleteProject' do
   config = use_native_modules!
-
   use_react_native!(:path => config["reactNativePath"])
-
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+  pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
+  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+  pod 'RNPermissions', :path => "../node_modules/react-native-permissions"
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera/Permission-Camera.podspec"
+  pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary/Permission-PhotoLibrary.podspec"
+  pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone/Permission-Microphone.podspec"
 
   target 'TempleteProjectTests' do
     inherit! :complete
@@ -19,10 +24,7 @@ target 'TempleteProject' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable these next few lines.
-  use_flipper!({ 'Flipper-Folly' => '2.3.0' }) # update this part
- post_install do |installer|
-   flipper_post_install(installer)
- end
+  
 end
 
 target 'TempleteProject-tvOS' do

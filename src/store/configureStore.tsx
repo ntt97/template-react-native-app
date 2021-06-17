@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import rootReducer from '../reducers';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from '../sagas';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = (function configureStore() {
@@ -15,7 +16,9 @@ sagaMiddleware.run(rootSaga);
 export function reduxProvider(Component: any) {
   return (props: any) => (
     <Provider store={store}>
-      <Component {...props} />
+      <SafeAreaProvider>
+        <Component {...props} />
+      </SafeAreaProvider>
     </Provider>
   );
 }

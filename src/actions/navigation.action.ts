@@ -1,21 +1,6 @@
 import { NAVIGATION_ROOT_WITH_SAGA, NAVIGATION_ROOT_SUCCESS, SELECTED_MENU } from '@constants/index';
 import { PayloadAction } from '../@types/navigation';
-
-export interface NavigationState {
-  name: string;
-  selectedMenuIndex: number;
-}
-export interface PayloadNavigationRoot {
-  name: string;
-}
-export interface PayloadSelectedMenuIndex {
-  selectedMenuIndex: number;
-}
-
-export interface RootAction {
-  type: string;
-  payload: PayloadNavigationRoot;
-}
+import { PayloadNavigationRoot, PayloadSelectedMenuIndex } from './interfaces/navigation';
 
 const navigationRootAction = (payload: PayloadNavigationRoot): PayloadAction<string, PayloadNavigationRoot> => {
   return {

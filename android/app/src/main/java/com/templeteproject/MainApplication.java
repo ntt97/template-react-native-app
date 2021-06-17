@@ -11,6 +11,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import com.microsoft.codepush.react.CodePush;
 
 public class MainApplication extends NavigationApplication {
 
@@ -34,6 +35,10 @@ public class MainApplication extends NavigationApplication {
         protected String getJSMainModuleName() {
           return "index";
         }
+        @Override
+        protected String getJSBundleFile() {
+            return CodePush.getJSBundleFile();
+        }
       };
 
   @Override
@@ -43,8 +48,8 @@ public class MainApplication extends NavigationApplication {
 
   @Override
   public void onCreate() {
+
     super.onCreate();
-    
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
 

@@ -1,4 +1,4 @@
-import { PayloadNavigationRoot, PayloadSelectedMenuIndex, NavigationState } from '../actions/navigation.action';
+import { PayloadNavigationRoot, PayloadSelectedMenuIndex, NavigationState } from '../actions/interfaces/navigation';
 import { NAVIGATION_ROOT_SUCCESS, RESET_ALL_STATE, SELECTED_MENU } from '@constants/index';
 import { PayloadAction } from '../@types/navigation';
 

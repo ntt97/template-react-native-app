@@ -1,32 +1,13 @@
-import { Navigation } from 'react-native-navigation';
-import { Keyboard } from 'react-native';
-import { LOADING_PAGE, SIDE_MENU } from '@constants/index';
 import { isIOS } from '@constants/platform';
-import { store } from '@store/configureStore';
-import { hideLoadingWithSaga, showLoadingWithSaga } from '@actions/loading.action';
+import { LOADING_SCREEN, SIDE_MENU } from '@constants/screenKeys';
+import { Keyboard } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 
 const TEMP_COMPONENT_ID: Record<string, string> = {};
 class NavigationActionsService {
   private static stackNavigation: any[] = [];
   private static navigation: any;
   private static instance: NavigationActionsService;
-  private static defaultOptions = {
-    topBar: {
-      visible: false,
-    },
-    animations: {
-      push: {
-        waitForRender: true,
-      },
-    },
-    sideMenu: {
-      left: {
-        shouldStretchDrawer: false,
-        // animationVelocity: 200,
-      },
-      animationType: 'parallax', // defaults to none if not provided, options are 'parallax', 'door', 'slide', or 'slide-and-scale'
-    },
-  };
 
   static initInstance(navigation: any): NavigationActionsService {
     Navigation.setDefaultOptions({
@@ -37,7 +18,7 @@ class NavigationActionsService {
     if (!NavigationActionsService.instance) {
       NavigationActionsService.instance = new NavigationActionsService();
       Navigation.events().registerComponentDidAppearListener(({ componentId, componentName, passProps }) => {
-        if (componentName != SIDE_MENU && componentName != LOADING_PAGE) {
+        if (componentName != SIDE_MENU && componentName != LOADING_SCREEN) {
           NavigationActionsService.navigation = componentId;
           TEMP_COMPONENT_ID[componentName] = componentId;
         }
@@ -104,29 +85,57 @@ class NavigationActionsService {
   };
 
   public static showLoading = () => {
-    store.dispatch(showLoadingWithSaga());
+    // store.dispatch(showLoadingWithSaga());
+    Navigation.showOverlay({
+      component: {
+        id: 'loading',
+        name: LOADING_SCREEN,
+        options: {
+          overlay: {
+            interceptTouchOutside: true,
+          },
+          layout: {
+            componentBackgroundColor: 'transparent',
+          },
+          topBar: {
+            visible: false,
+          },
+        },
+      },
+    });
   };
   public static hideLoading = () => {
-    store.dispatch(hideLoadingWithSaga());
+    // store.dispatch(hideLoadingWithSaga());
+    Navigation.dismissOverlay('loading');
   };
 
   public static pop = () => {
     Keyboard.dismiss();
     Navigation.pop(NavigationActionsService.navigation);
   };
+
+  public static showBadge = (screenName: string, badge: any, icon: number) => {
+    if (badge) {
+      Navigation.mergeOptions(screenName, {
+        bottomTab: {
+          badge,
+          icon,
+        },
+      });
+    } else {
+      Navigation.mergeOptions(screenName, {
+        bottomTab: {
+          icon,
+        },
+      });
+    }
+  };
+
   public static popId = (screenName: string) => {
     Keyboard.dismiss();
     const id = TEMP_COMPONENT_ID[screenName];
     if (id) {
       Navigation.popTo(id);
-    }
-  };
-
-  public static popToRoot = (screenName: string) => {
-    Keyboard.dismiss();
-    const id = TEMP_COMPONENT_ID[screenName];
-    if (id) {
-      Navigation.popToRoot(id);
     }
   };
 

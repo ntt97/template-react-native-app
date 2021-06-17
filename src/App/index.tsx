@@ -6,67 +6,60 @@
  * @flow strict-local
  */
 
-import React from 'react';
-import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar } from 'react-native';
-
-import { Header, Colors } from 'react-native/Libraries/NewAppScreen';
+import { initCart } from '@actions/cart.action';
+import { handleChangeLanguage } from '@actions/language.action';
+import LoadingScreen from '@components/Loading';
+import NetInfo, { NetInfoState } from '@react-native-community/netinfo';
+import { getCart, getDefaultLanguage, isLogin } from 'helpers';
+import I18n from 'i18n-js';
+import { changeConnectionStatus } from 'modules/network/actions';
+import AuthNav from 'navigation/authNav';
+import MainNav from 'navigation/mainNav';
+import React, { useEffect } from 'react';
+import CodePush from 'react-native-code-push';
+import SplashScreen from 'react-native-splash-screen';
+import { useDispatch } from 'react-redux';
 
 const App = (props: unknown) => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView contentInsetAdjustmentBehavior="automatic" style={styles.scrollView}>
-          <Header />
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}></Text>
-              <Text style={styles.sectionDescription}></Text>
-            </View>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
+  const dispatch = useDispatch();
+  useEffect(() => {
+    init();
+    SplashScreen.hide();
+    const unsubscribe = NetInfo.addEventListener(state => {
+      handleConnectionChange(state);
+    });
+    renderScreen();
+    return () => {
+      // unsubscribe();
+    };
+  }, []);
+
+  const init = async () => {
+    const keyLanguage = (await getDefaultLanguage()) || 'en';
+    I18n.defaultLocale = keyLanguage;
+    I18n.locale = keyLanguage;
+    dispatch(handleChangeLanguage(keyLanguage));
+    const cart = await getCart();
+    cart && dispatch(initCart(cart));
+  };
+
+  const renderScreen = async () => {
+    const isLog = await isLogin();
+    if (isLog) {
+      MainNav();
+    } else {
+      AuthNav();
+    }
+  };
+
+  const handleConnectionChange = (state: NetInfoState) => {
+    if (state.isInternetReachable === null) return;
+
+    dispatch(changeConnectionStatus({ isConnected: state.isInternetReachable }));
+  };
+
+  return <LoadingScreen></LoadingScreen>;
 };
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
-
-export default App;
+let codePushOptions = { checkFrequency: CodePush.CheckFrequency.MANUAL };
+export default CodePush(codePushOptions)(App);

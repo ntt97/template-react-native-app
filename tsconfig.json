@@ -49,6 +49,8 @@
     // "preserveSymlinks": true,              /* Do not resolve the real path of symlinks. */
     // "allowUmdGlobalAccess": true,          /* Allow accessing UMD globals from modules. */
     "baseUrl": "./src",
+    "resolveJsonModule": true,
+
     /* Base directory to resolve non-absolute module names. */
     "paths": {
       "@store/*": [
@@ -78,6 +80,18 @@
       "@sagas/*": [
         "sagas/*"
       ],
+      "@localize/*": [
+        "localize/*"
+      ],
+      "@types/*": [
+        "@types/*"
+      ],
+      "@navigation/*":[
+        "@navigation/*"
+      ],
+      "@modules/*":[
+        "@modules/*"
+      ]
     },
     /* Source Map Options */
     // "sourceRoot": "",                      /* Specify the location where debugger should locate TypeScript files instead of source locations. */
